@@ -1,4 +1,4 @@
-package ro.jademy.millionaire;
+package ro.jademy.millionaire.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,12 +35,12 @@ public class Game {
     );
 
     //proprietatile unei instante de joc   (dar intrebarile in sine sunt diferite oe fiecare instanta)
-    private List<Question> difficultyZeroQuestions = new ArrayList<Question>();
-    private List<Question> difficultyOneQuestions = new ArrayList<Question>();
-    private List<Question> difficultyTwoQuestions = new ArrayList<Question>();
-    private List<Question> difficultyThreeQuestions = new ArrayList<Question>();
+    private List<Question> difficultyZeroQuestions = new ArrayList<>();
+    private List<Question> difficultyOneQuestions = new ArrayList<>();
+    private List<Question> difficultyTwoQuestions = new ArrayList<>();
+    private List<Question> difficultyThreeQuestions = new ArrayList<>();
 
-    private List<Lifeline> lifelines = new ArrayList<Lifeline>();
+    private List<Lifeline> lifelines = new ArrayList<>();
     private Level currentLevel = LEVELS.get(0);       // pointeaza de fiecare data spre alt level (depinde unde ne aflam)
 
 
@@ -56,6 +56,11 @@ public class Game {
        lifelines.add(new Lifeline("50-50"));      //la lista de lifelines se adauga cate un element.
        lifelines.add(new Lifeline("50-50"));
        lifelines.add(new Lifeline("50-50"));
+    }
+
+
+    public List<Question> getDifficultyZeroQuestions(){
+
     }
 
 
