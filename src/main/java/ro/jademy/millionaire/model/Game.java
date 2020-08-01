@@ -78,8 +78,9 @@ public class Game {
 
         showWelcome();
         showRules();
-        showQuestion();
-
+        do {
+            showQuestion();
+        } while (currentLevel.getReward() < 1000000);
 
         //show question
         //get answer ---- in a do while
@@ -99,58 +100,68 @@ public class Game {
     }
 
 
-    private void  showQuestion() {
-        Question question;           //all of these are done for the same question (the same object)
+    private void showQuestion() {
+        Question question = null;           //all of these are done for the same question (the same object)
         List<Answer> allAnswers;
+        Scanner sc = new Scanner(System.in);
         switch (currentLevel.getDifficultyLevel()) {     //according to the difficulty of the level it will return question
             case 0:
-                question=difficultyZeroQuestions.get(0);     //always get the first in the list (they are already randomized
-                allAnswers=printQuestion(question);          //prints the shuffles answers of the question
+                question = difficultyZeroQuestions.get(0);     //always get the first in the list (they are already randomized
+               /* allAnswers = printQuestion(question);          //prints the shuffles answers of the question
                 System.out.println();
-                System.out.println("Applying lifeline");
-                //todo
-                //let's assume that the user responded with apply lifeline
-                //do all valodation beforehand
-                applyLifeline(lifelines.get(0),allAnswers,question.getCorrectAnswer());
+                *//*System.out.println("What is your next move? Answer(A) / Use Lifeline (L) / Quit game (Q)");
+                String playerMove = sc.next();
+                if (playerMove.equalsIgnoreCase("A")) {
+                    *//**//*System.out.println("Proceed with answer");
+                    System.out.println(question.getCorrectAnswer());
+                    String playerAnswer = sc.next();
+                    for (int i = 0; i < allAnswers.size(); i++) {
+                        if (allAnswers.get(i).equals(question.getCorrectAnswer())) {
+                            if (Character.toString((char) (65 + i)).equalsIgnoreCase(playerAnswer)) {
+                                System.out.println("well done");
+                            }
+                        }
+                    }*//**//*
+                    validateAnswer(question.getCorrectAnswer(),allAnswers);
+                } else if (playerMove.equalsIgnoreCase("L")) {
+                    System.out.println("Applying lifeline");
+                    System.out.println("check for lifelines");
+                    //validate if there are any more lifelines to be used
+
+                    applyLifeline(lifelines.get(0), allAnswers, question.getCorrectAnswer());
+                    validateAnswer(question.getCorrectAnswer(),allAnswers);
+                }*//*
+                playGame(question.getCorrectAnswer(), allAnswers);*/
+                difficultyZeroQuestions.remove(0);
+
                 break;
 
             case 1:
-                question=difficultyZeroQuestions.get(1);     //always get the first in the list (they are already randomized
-                allAnswers=printQuestion(question);          //prints the shuffles answers of the question
-                System.out.println();
-                System.out.println("Applying lifeline");
-                //todo
-                //let's assume that the user responded with apply lifeline
-                //do all valodation beforehand
-                applyLifeline(lifelines.get(0),allAnswers,question.getCorrectAnswer());
+                question = difficultyOneQuestions.get(0);     //always get the first in the list (they are already randomized
+
+                difficultyOneQuestions.remove(0);
                 break;
 
             case 2:
-                question=difficultyZeroQuestions.get(2);     //always get the first in the list (they are already randomized
-                allAnswers=printQuestion(question);          //prints the shuffles answers of the question
-                System.out.println();
-                System.out.println("Applying lifeline");
-                //todo
-                //let's assume that the user responded with apply lifeline
-                //do all valodation beforehand
-                applyLifeline(lifelines.get(0),allAnswers,question.getCorrectAnswer());
+                question = difficultyTwoQuestions.get(0);     //always get the first in the list (they are already randomized
+
+                difficultyTwoQuestions.remove(0);
                 break;
 
             case 3:
-                question=difficultyZeroQuestions.get(3);     //always get the first in the list (they are already randomized
-                allAnswers=printQuestion(question);          //prints the shuffles answers of the question
-                System.out.println();
-                System.out.println("Applying lifeline");
-                //todo
-                //let's assume that the user responded with apply lifeline
-                //do all valodation beforehand
-                applyLifeline(lifelines.get(0),allAnswers,question.getCorrectAnswer());
+                question = difficultyThreeQuestions.get(0);     //always get the first in the list (they are already randomized
+
+                difficultyThreeQuestions.remove(0);
                 break;
 
             default:
                 System.out.println("Unknown difficulty level");
-               break;
+                break;
+
         }
+        allAnswers = printQuestion(question);          //prints the shuffles answers of the question
+        System.out.println();
+        playGame(question.getCorrectAnswer(), allAnswers, lifelines);
     }
 
     private List<Answer> printQuestion(Question question) {       //this is for randomizing the answers and it returns a list of answers
@@ -173,29 +184,90 @@ public class Game {
     }
 
 
-    private void applyLifeline(Lifeline lifeline, List<Answer> allAnswers,Answer correctAnswer) {
-        if (lifeline.getName().equals("50-50")){
+    private void applyLifeline(Lifeline lifeline, List<Answer> allAnswers, Answer correctAnswer) {
+        if (lifeline.getName().equals("50-50")) {
             //print all answers EXCEPT two random WRONG answers
-            Random random=new Random();
+            Random random = new Random();
 
-            List<Answer> answerListCopy=new ArrayList<>(allAnswers); //a new list that replicates the list with all the answers (we don't want to lose the first one
+            List<Answer> answerListCopy = new ArrayList<>(allAnswers); //a new list that replicates the list with all the answers (we don't want to lose the first one
             answerListCopy.remove(correctAnswer);   //in lista cu allAnswers noi am apucat sa-l bagam si pe cel corect (vezi la print question) -il scoatem acum, ca ne trebuie mia incolo
             answerListCopy.remove(random.nextInt(answerListCopy.size()));   //remove a random object from an index
             answerListCopy.remove(random.nextInt(answerListCopy.size()));   //remove a random object from an index
 
 
-            for (int i=0; i<allAnswers.size();i++){
-                Answer answer=allAnswers.get(i);     //it reads the answer from the specified index
+            for (int i = 0; i < allAnswers.size(); i++) {
+                Answer answer = allAnswers.get(i);     //it reads the answer from the specified index
 
-                if(answer.equals(correctAnswer)||answerListCopy.contains(answer)){
+                if (answer.equals(correctAnswer) || answerListCopy.contains(answer)) {
                     //the answerListCopy contains just one WRONG answer right now. we need to print that one and the right answer.
                     // If either one of them is equal to the answer from index "i" we're gonna print it
                     System.out.println(((char) (65 + i)) + "." + allAnswers.get(i).getText());
-                }else{
+                } else {
                     System.out.println(((char) (65 + i)) + ".");
                 }
             }
         }
         lifeline.setUsed(true);    //if lifeline is applied it's gonna become "used".
+    }
+
+    public void validateAnswer(Answer correctAnswer, List<Answer> allAnswers) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Proceed with answer");
+        System.out.println(correctAnswer.toString());
+        String playerAnswer = sc.next();
+        for (int i = 0; i < allAnswers.size(); i++) {
+            if (allAnswers.get(i).equals(correctAnswer)) {
+                if (Character.toString((char) (65 + i)).equalsIgnoreCase(playerAnswer)) {
+                    System.out.println("well done");
+                    currentLevel = LEVELS.get(currentLevel.getNumber());
+                    System.out.println("You have reached level " + currentLevel.getNumber());
+                    System.out.println("Your current balance is " + currentLevel.getReward());
+
+                }
+            }
+        }
+
+    }
+
+    private void playGame(Answer correctAnswer, List<Answer> allAnswers, List<Lifeline> lifelines) {
+        Scanner sc = new Scanner(System.in);
+
+
+        if (lifelines.size()>0) {
+            System.out.println("What is your next move? Answer(A) / Use Lifeline (L) / Quit game (Q)");
+            String playerMove = sc.next();
+            if (playerMove.equalsIgnoreCase("A")) {
+                validateAnswer(correctAnswer, allAnswers);
+            } else if (playerMove.equalsIgnoreCase("L")) {
+                System.out.println("check for lifelines");
+                for (Lifeline lifeline : lifelines) {
+                    if (!lifeline.isUsed()) {
+                        System.out.println("Applying lifeline");
+                        //validate if there are any more lifelines to be used
+                        applyLifeline(lifeline, allAnswers, correctAnswer);
+                        validateAnswer(correctAnswer, allAnswers);
+                        lifelines.remove(0);
+                        break;
+                    }
+                }
+            }
+        } else{
+            System.out.println("What is your next move? Answer(A) / Quit game (Q)");
+            String playerMove = sc.next();
+            if (playerMove.equalsIgnoreCase("A")) {
+                validateAnswer(correctAnswer, allAnswers);
+            } else {
+                System.out.println("choose different path in life");
+            }
+        }
+    }
+
+    private boolean availableLifelines(List<Lifeline> lifelines) {
+        for (Lifeline lifeline : lifelines) {
+            if (!lifeline.isUsed()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
