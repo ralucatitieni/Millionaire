@@ -9,12 +9,12 @@ public class Answer {
         this.text = text;
     }
 
-
-    public String getText() {      //getter
+    public String getText() {
         return text;
     }
 
-    public void setText(String text) {        //setter
+    public void setText(String text) {
         this.text = text;
     }
+
 }

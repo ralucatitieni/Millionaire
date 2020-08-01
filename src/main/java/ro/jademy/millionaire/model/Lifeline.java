@@ -2,34 +2,30 @@ package ro.jademy.millionaire.model;
 
 public class Lifeline {
     private String name;
-    private boolean used;    //vezi de getteri si setteri
+    private boolean used;
 
 
-    //o instanta a lifelineului
+    //one instance of a lifeline
+    //we have to make three of them (three different lifelines)
 
 
-    //daca vreo sa avem de 3 ori 50:50 facem 3 obiecte lifeline
-
-
-    public Lifeline(String name) {     //nu folosesc booleanul "used" pentru ca atunci cand e contruiesc e implicti false, deci e ok
+    public Lifeline(String name) {
         this.name = name;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
-        this.name=name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public boolean getUsed(){
+    public boolean isUsed() {             //unlike other getters, for boolean it uses the prefix "is" instead of "get"
         return used;
     }
 
-    public void setUsed(boolean used){
-        this.used=used;
+    public void setUsed(boolean used) {
+        this.used = used;
     }
-
-
 }

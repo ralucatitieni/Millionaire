@@ -3,7 +3,7 @@ package ro.jademy.millionaire.model;
 public class Level {
 
 
-    //ENCAPSULATION
+    //ENCAPSULATION   --when everything is private and we use getters and setters
 
     private int number;    // level number
     private int difficultyLevel;
@@ -50,5 +50,4 @@ public class Level {
     public void setRewardBreakout(int rewardBreakout) {
         this.rewardBreakout = rewardBreakout;
     }
-
 }

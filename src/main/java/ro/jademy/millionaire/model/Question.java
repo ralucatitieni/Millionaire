@@ -6,11 +6,12 @@ import java.util.List;
 public class Question {
 
     private String text;
-    private List<Answer> wrongAnswers = new ArrayList<Answer>();     //raspunsurile sunt create si ele ca si obiecte
+    private List<Answer> wrongAnswers = new ArrayList<>();     //the answers are also created as objects
     private Answer correctAnswer;
-    private int difficulty;
+    private int difficulty;   //difficulty goes from 0 to 3. It's done for sorting out the questions.
+     //it's easier to separate the answers(right form wrong ones) in this manner
+    //this way i can easier sort them at 50/50 or when the contestant has answered correctly or not.
 
-    //daca fac raspunsurile sub form asta mi-e mai simplu sa le separ si la 50:50 si in gneral sa le aranjez
 
     public Question(String text, List<Answer> wrongAnswers, Answer correctAnswer, int difficulty) {
         this.text = text;
@@ -43,18 +44,15 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
-
-
-    public int getDifficulty(){
+    public int getDifficulty() {
         return difficulty;
-
     }
 
-    public void setDifficulty(int difficulty){
-        this.difficulty=difficulty;
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
     }
 
-    ////adauga constructor si getter si setter
+
 
 
 }
